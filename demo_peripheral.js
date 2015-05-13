@@ -29,7 +29,7 @@ bleno.on('stateChange', function(state) {
     // We will also advertise the service ID in the advertising packet,
     // so it's easier to find.
     //
-    bleno.startAdvertising(name, [testService.uuid], function(err) {
+    bleno.startAdvertising('TestService', [testService.uuid], function(err) {
       if (err) {
         console.dir(err);
       }
