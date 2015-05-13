@@ -10,11 +10,27 @@ var timerRobot = Cylon.robot({
   }
 });
 
+function TestCharacteristic(){
+  bleno.Characteristic.call(this, {
+    uuid: '11112222333344445555666677770000',
+    properties: ['read', 'notify', 'write'],
+    descriptors: [
+    new bleno.Descriptor({
+      uuid: '1234',
+      value: "test service characteristic"
+    }),
+    ]
+  });
+}
+util.inherits(TestCharacteristic, bleno.Characteristic);
+
+var testCharacteristic = new TestCharacteristic();
+
 function TestService() {
   bleno.PrimaryService.call(this, {
     uuid: '11112222333344445555666677778888',
     characteristics: [
-    'test'
+    testCharacteristic
     ]
   });
 }
