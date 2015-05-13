@@ -30,7 +30,21 @@ noble.on('discover', function(peripheral) {
     }
 
     peripheral.discoverServices([testServiceUuid], function(err, services) {
-      console.dir(services);
+
+      // Found services.
+      services.forEach(function(service) {
+        console.log('found service:', service.uuid);
+
+        // Found characteristics
+        service.discoverCharacteristics([], function(err, characteristics) {
+
+          characteristics.forEach(function(characteristic) {
+
+            console.log('found characteristic id:', characteristic.uuid);
+            console.log('found characteristic descriptor:', characteristic.descriptors);
+          });
+        });
+      });
     });
   });
 });
