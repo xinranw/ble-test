@@ -23,16 +23,16 @@ function TestCharacteristic(){
   });
 }
 util.inherits(TestCharacteristic, bleno.Characteristic);
-TestCharacteristic.prototype.onReadRequest = function(offset, callback) {
-  if (offset) {
-    callback(this.RESULT_ATTR_NOT_LONG, null);
-  } else {
-    console.dir('read');
-    var data = new Buffer(2);
-    data.writeUInt16BE('Test message', 0);
-    callback(this.RESULT_SUCCESS, data);
-  }
-};
+// TestCharacteristic.prototype.onReadRequest = function(offset, callback) {
+//   if (offset) {
+//     callback(this.RESULT_ATTR_NOT_LONG, null);
+//   } else {
+//     console.dir('read');
+//     var data = new Buffer(2);
+//     data.writeUInt16BE('HI', 0);
+//     callback(this.RESULT_SUCCESS, data);
+//   }
+// };
 
 var testCharacteristic = new TestCharacteristic();
 
