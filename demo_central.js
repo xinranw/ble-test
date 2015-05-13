@@ -39,9 +39,11 @@ noble.on('discover', function(peripheral) {
         service.discoverCharacteristics([], function(err, characteristics) {
 
           characteristics.forEach(function(characteristic) {
-
             console.log('found characteristic id:', characteristic.uuid);
             console.log('found characteristic descriptor:', characteristic.descriptors);
+            characteristic.read(function(err, data){
+              console.dir('here', data);
+            });
           });
         });
       });
