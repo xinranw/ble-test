@@ -1,6 +1,7 @@
 var Cylon = require('cylon');
 var util = require('util');
 var bleno = require('bleno');
+var WristBandService = require('./wrist-band-service');
 
 var timerRobot = Cylon.robot({
   work: function(){
@@ -10,45 +11,7 @@ var timerRobot = Cylon.robot({
   }
 });
 
-function TestCharacteristic(){
-  bleno.Characteristic.call(this, {
-    uuid: '11112222333344445555666677770000',
-    properties: ['read', 'notify', 'write'],
-    descriptors: [
-    new bleno.Descriptor({
-      uuid: '1234',
-      value: 'test service characteristic'
-    }),
-    ]
-  });
-}
-util.inherits(TestCharacteristic, bleno.Characteristic);
-TestCharacteristic.prototype.onReadRequest = function(offset, callback) {
-  if (offset) {
-    console.dir('offset:', offset);
-    callback(this.RESULT_ATTR_NOT_LONG, null);
-  } else {
-    console.dir('read');
-    // var data = new Buffer(2);
-    // data.writeUInt16BE('HI', 0);
-    // callback(this.RESULT_SUCCESS, data);
-    callback(this.RESULT_SUCCESS, '');
-  }
-};
-
-var testCharacteristic = new TestCharacteristic();
-
-function TestService() {
-  bleno.PrimaryService.call(this, {
-    uuid: '11112222333344445555666677778888',
-    characteristics: [
-    testCharacteristic
-    ]
-  });
-}
-util.inherits(TestService, bleno.PrimaryService);
-
-var testService = new TestService();
+var wristBandService = new WristBandService();
 
 
 bleno.on('stateChange', function(state) {
@@ -57,7 +20,7 @@ bleno.on('stateChange', function(state) {
     // We will also advertise the service ID in the advertising packet,
     // so it's easier to find.
     //
-    bleno.startAdvertising('TestService', [testService.uuid], function(err) {
+    bleno.startAdvertising('WristBandService', [wristBandService.uuid], function(err) {
       if (err) {
         console.dir(err);
       }
@@ -75,7 +38,7 @@ bleno.on('advertisingStart', function(err) {
     // along with our characteristics.
     //
     bleno.setServices([
-      testService
+      wristBandService
       ]);
   }
 });
