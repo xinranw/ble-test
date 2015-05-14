@@ -1,13 +1,5 @@
 var Cylon = require('cylon');
 
-var print = Cylon.robot({
-  work: function() {
-    every((1).second(), function() {
-      console.log("Hello, human!");
-    });
-  }
-});
-
 function writeToScreen(screen, message) {
   screen.setCursor(0,0);
   screen.write(message);
@@ -19,7 +11,6 @@ Cylon
 .device('screen', { driver: 'upm-jhd1313m1', connection: 'edison' })
 .on('ready', function(my) {
   writeToScreen(my.screen, "Ready!");
-  my.screen.clear();
 });
 
 Cylon
@@ -30,4 +21,4 @@ Cylon
   });
 });
 
-lcd.start();
+Cylon.start();
