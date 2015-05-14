@@ -19,7 +19,7 @@ noble.on('stateChange', function(state) {
 
 noble.on('discover', function(peripheral) {
   // we found a peripheral, stop scanning
-  noble.stopScanning();
+  // noble.stopScanning();
 
   console.log('found peripheral:', peripheral.advertisement);
 
