@@ -9,6 +9,8 @@
     "cylon-firmata": "^0.20.0",
     "cylon-gpio": "^0.24.0",
     "cylon-i2c": "^0.21.1",
+    "cylon-intel-iot": "^0.6.0",
+    "mraa": "^0.6.2",
     "noble": "^0.3.14"
   },
   "devDependencies": {},

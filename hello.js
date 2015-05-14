@@ -8,20 +8,17 @@ var print = Cylon.robot({
   }
 });
 
-var lcd = Cylon.robot({
-  connections: {
-    arduino: { adaptor: 'firmata', port: '/dev/ttyACM0' }
-  },
+function writeToScreen(screen, message) {
+  screen.setCursor(0,0);
+  screen.write(message);
+}
 
-  devices: {
-    lcd: { driver: 'lcd' }
-  },
-
-  work: function(my) {
-    my.lcd.on('start', function(){
-      my.lcd.print("Hello!");
-    });
-  }
-});
-
+var lcd = Cylon
+  .robot({ name: 'LCD'})
+  .connection('edison', { adaptor: 'intel-iot' })
+  .device('screen', { driver: 'upm-jhd1313m1', connection: 'edison' })
+  .on('ready', function(my) {
+    writeToScreen(my.screen, "Ready!");
+    my.screen.clear();
+  });
 lcd.start();
