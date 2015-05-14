@@ -1,6 +1,6 @@
 var util = require('util');
 var bleno = require('bleno');
-var WristBandCharacteristic = require('./wristband-characteristic');
+var WristBandCharacteristic = require('./wrist-band-characteristic');
 
 var wristBandCharacteristic = new WristBandCharacteristic();
 
