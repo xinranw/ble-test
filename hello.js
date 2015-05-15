@@ -11,13 +11,13 @@ Cylon
 .device('screen', { driver: 'upm-jhd1313m1', connection: 'edison' })
 .on('ready', function(my) {
   writeToScreen(my.screen, "Ready!");
-});
 
-Cylon
-.robot({name:'Hello'})
-.on('ready', function(){
-  every((1).second(), function(){
-    console.dir("hello!!");
+  my.screen.subscribe('NewWaitTime', function(err, data){
+    if (err){
+      console.dir('error');
+      console.log(err);
+    }
+    console.log('received:', data);
   });
 });
 

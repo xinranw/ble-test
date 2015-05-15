@@ -30,6 +30,18 @@ function getWaitTime(){
   return Math.floor(Math.random() * 120);
 }
 
+function writeWaitTime(characteristic){
+  var waitTimeBuffer = new Buffer(1);
+  waitTimeBuffer.writeUInt8(getWaitTime(), 0);
+  characteristic.write(waitTimeBuffer, false, function(err){
+    if (err){
+      console.log('write error');
+      console.log(err);
+    }
+    console.log('written');
+  });
+}
+
 noble.on('discover', function(peripheral) {
   // we found a peripheral, stop scanning
   // noble.stopScanning();
@@ -57,15 +69,7 @@ noble.on('discover', function(peripheral) {
           characteristics.forEach(function(characteristic) {
             console.log('found characteristic id:', characteristic.uuid);
 
-            var waitTimeBuffer = new Buffer(1);
-            waitTimeBuffer.writeUInt8(getWaitTime(), 0);
-            characteristic.write(waitTimeBuffer, false, function(err){
-              if (err){
-                console.log('write error');
-                console.log(err);
-              }
-              console.log('written');
-            });
+            setInterval(function(){writeWaitTime(characteristic)},2000);
 
             // characteristic.discoverDescriptors(function(err, descriptors){
             //   descriptors.forEach(function(descriptor){
@@ -75,10 +79,10 @@ noble.on('discover', function(peripheral) {
             //     });
             //   });
             // });
-          });
+        });
         });
       });
     });
     });
-  }
+}
 });

@@ -1,6 +1,10 @@
 var util = require('util');
 var bleno = require('bleno');
-var Cylon = require('cylon');
+var mraa = require ('mraa');
+var LCD  = require ('jsupm_i2clcd');
+
+var myLCD = new LCD.Jhd1313m1(6, 0x3E, 0x62);
+
 
 function WristBandCharacteristic(){
   bleno.Characteristic.call(this, {
@@ -32,36 +36,15 @@ WristBandCharacteristic.prototype.onWriteRequest = function(data, offset, withou
   console.log('write received');
   console.log('Write request: ', data.readUInt8(offset));
   var waitTime = data.readUInt8(offset);
-  var waitString = offset + "min left";
+  var waitString = waitTime + "min left";
 
-  Cylon
-  .robot({ name: 'LCD'})
-  .connection('edison', { adaptor: 'intel-iot' })
-  .device('screen', { driver: 'upm-jhd1313m1', connection: 'edison' })
-  .on('ready', function(my) {
-    writeToScreen(my.screen, waitString);
-  });
-
-  Cylon.start();
+  writeToScreen(waitString);
 
   callback(this.RESULT_SUCCESS);
 };
 
-function write(screen, message) {
-  screen.setCursor(0,0);
-  screen.write(message);
-}
-
-function writeToScreen(screen, string){
-  Cylon
-  .robot({ name: 'LCD'})
-  .connection('edison', { adaptor: 'intel-iot' })
-  .device('screen', { driver: 'upm-jhd1313m1', connection: 'edison' })
-  .on('ready', function(my) {
-    write(my.screen, waitString);
-  });
-
-  Cylon.start();
+function writeToScreen(string){
+  myLCD.write(string);
 }
 
 module.exports = WristBandCharacteristic;

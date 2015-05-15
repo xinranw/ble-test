@@ -1,18 +1,8 @@
-var Cylon = require('cylon');
 var util = require('util');
 var bleno = require('bleno');
 var WristBandService = require('./wrist-band-service');
 
-var timerRobot = Cylon.robot({
-  work: function(){
-    every((1).seconds(), function(){
-      console.log('1 minute');
-    });
-  }
-});
-
 var wristBandService = new WristBandService();
-
 
 bleno.on('stateChange', function(state) {
   if (state === 'poweredOn') {
